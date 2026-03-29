@@ -4,6 +4,7 @@ import type {
   Goal,
   RecurringRule,
   Transaction,
+  TransactionTemplate,
   User,
 } from "./services/types";
 
@@ -224,6 +225,42 @@ export const mockRecurringRules: RecurringRule[] = [
     frequency: "monthly",
     nextDueDate: "2026-04-01",
     isActive: true,
+  },
+];
+
+export const mockTransactionTemplates: TransactionTemplate[] = [
+  {
+    _id: "tpl_commute",
+    userId: MOCK_USER_ID,
+    name: "Daily commute",
+    categoryId: "cat_transport",
+    type: "expense",
+    amount: 1800,
+    note: "Metro + last mile",
+    tags: "commute",
+    pinSlot: 0,
+  },
+  {
+    _id: "tpl_lunch",
+    userId: MOCK_USER_ID,
+    name: "Office lunch",
+    categoryId: "cat_groceries",
+    type: "expense",
+    amount: 350,
+    note: "Lunch",
+    tags: "",
+    pinSlot: 1,
+  },
+  {
+    _id: "tpl_coffee",
+    userId: MOCK_USER_ID,
+    name: "Coffee",
+    categoryId: "cat_entertainment",
+    type: "expense",
+    amount: 200,
+    note: "Cafe",
+    tags: "",
+    pinSlot: 2,
   },
 ];
 

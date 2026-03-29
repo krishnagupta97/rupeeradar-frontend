@@ -1,12 +1,14 @@
 import {
   ChartPie,
   ChartLineUp,
+  ClipboardText,
   GearSix,
   ListBullets,
   Target,
   Wallet,
 } from "@phosphor-icons/react";
 import { NavLink, Outlet } from "react-router-dom";
+import { MobileBottomNav } from "../MobileBottomNav";
 import { useApp } from "../../contexts/useApp";
 import type { LayoutProps } from "./types";
 
@@ -28,6 +30,12 @@ const nav = [
     label: "Budgets",
     hint: "Limits & progress",
     Icon: Wallet,
+  },
+  {
+    to: "/templates",
+    label: "Templates",
+    hint: "Quick repeat entries",
+    Icon: ClipboardText,
   },
   {
     to: "/reports",
@@ -53,8 +61,8 @@ function LayoutContent({ children }: LayoutProps) {
   const { user } = useApp();
 
   return (
-    <div className="md-app min-h-screen">
-      <div className="flex min-h-screen">
+    <div className="md-app flex h-dvh min-h-0 flex-col overflow-hidden">
+      <div className="flex min-h-0 flex-1 overflow-hidden">
         <aside className="md-sidebar hidden w-[17rem] shrink-0 flex-col border-r px-4 py-6 md:flex">
           <div className="mb-8 px-2">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--md-primary)]">
@@ -112,48 +120,13 @@ function LayoutContent({ children }: LayoutProps) {
           ) : null}
         </aside>
 
-        <div className="flex min-w-0 flex-1 flex-col">
-          <header className="flex items-center justify-between border-b border-[color-mix(in_srgb,var(--md-outline-variant)_55%,transparent)] bg-[var(--md-surface-container)] px-4 py-3 shadow-[var(--md-elev-1)] md:hidden">
-            <span className="text-sm font-semibold text-[var(--md-primary)]">
-              RupeeRadar
-            </span>
-          </header>
-          <div className="border-b border-[color-mix(in_srgb,var(--md-outline-variant)_55%,transparent)] bg-[var(--md-surface-container)] px-3 py-2 md:hidden">
-            <nav className="flex gap-2 overflow-x-auto pb-1">
-              {nav.map((item) => {
-                const Icon = item.Icon;
-                return (
-                  <NavLink
-                    key={item.to}
-                    to={item.to}
-                    end={item.to === "/"}
-                    className={({ isActive }) =>
-                      [
-                        "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all",
-                        isActive ? "md-chip-active" : "md-chip-idle",
-                      ].join(" ")
-                    }
-                  >
-                    {({ isActive }) => (
-                      <>
-                        <Icon
-                          className="size-3.5"
-                          weight={isActive ? "fill" : "regular"}
-                          aria-hidden
-                        />
-                        {item.label}
-                      </>
-                    )}
-                  </NavLink>
-                );
-              })}
-            </nav>
-          </div>
-          <main className="flex-1 overflow-auto bg-[var(--md-surface)] p-4 md:p-8">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col pb-[calc(5.75rem+env(safe-area-inset-bottom))] md:pb-0">
+          <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-[var(--md-surface)] px-4 pb-4 pt-0 md:p-8">
             {children}
           </main>
         </div>
       </div>
+      <MobileBottomNav />
     </div>
   );
 }

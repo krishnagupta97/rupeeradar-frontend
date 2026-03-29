@@ -1,6 +1,8 @@
 import { Plus, Target } from "@phosphor-icons/react";
 import { useMemo, useState } from "react";
 import { Button } from "../../components/Button";
+import { MobileAddFab } from "../../components/MobileAddFab";
+import { PageHeader } from "../../components/PageHeader";
 import { useApp } from "../../contexts/useApp";
 import { useFinanceData } from "../../contexts/useFinanceData";
 import { Skeleton } from "../../skeleton";
@@ -33,32 +35,34 @@ export default function GoalsPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-start gap-3">
-          <div className="flex size-11 items-center justify-center rounded-2xl bg-[var(--md-primary-container)] text-[var(--md-on-primary-container)] shadow-[var(--md-elev-1)]">
-            <Target className="size-6" weight="duotone" aria-hidden />
-          </div>
-          <div>
-            <h1 className="md-page-title text-2xl">Goals</h1>
-            <p className="md-page-sub mt-1 text-sm">
-              Track savings targets; new goals are stored in this session until
-              you connect a real API.
-            </p>
-          </div>
-        </div>
-        <Button
-          type="button"
-          variant="primary"
-          className="self-start"
-          onClick={() => {
-            setGoalModalKey((k) => k + 1);
-            setModalOpen(true);
-          }}
-        >
-          <Plus className="size-5" weight="bold" />
-          Add goal
-        </Button>
-      </div>
+      <PageHeader
+        title="Goals"
+        subtitle="Track savings targets; new goals are stored in this session until you connect a real API."
+        icon={
+          <Target className="size-5 md:size-6" weight="duotone" aria-hidden />
+        }
+        actions={
+          <Button
+            type="button"
+            variant="primary"
+            onClick={() => {
+              setGoalModalKey((k) => k + 1);
+              setModalOpen(true);
+            }}
+          >
+            <Plus className="size-5" weight="bold" />
+            Add goal
+          </Button>
+        }
+      />
+
+      <MobileAddFab
+        label="Add goal"
+        onClick={() => {
+          setGoalModalKey((k) => k + 1);
+          setModalOpen(true);
+        }}
+      />
 
       <div className="flex flex-wrap gap-2">
         {filters.map((f) => (

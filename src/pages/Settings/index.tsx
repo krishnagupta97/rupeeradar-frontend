@@ -5,7 +5,9 @@ import { endpoints } from "../../services/endpoints";
 import { get } from "../../services/networkHandler";
 import type { User } from "../../services/types";
 import { Skeleton } from "../../skeleton";
+import { PageHeader } from "../../components/PageHeader";
 import { AppearanceSettings } from "./components/AppearanceSettings";
+import { MoreNavigation } from "./components/MoreNavigation";
 import { ProfilePanel } from "./components/ProfilePanel";
 
 export default function SettingsPage() {
@@ -41,21 +43,23 @@ export default function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <header className="flex items-start gap-3">
-        <div className="flex size-11 items-center justify-center rounded-2xl bg-[var(--md-primary-container)] text-[var(--md-on-primary-container)] shadow-[var(--md-elev-1)]">
-          <GearSix className="size-6" weight="duotone" aria-hidden />
-        </div>
-        <div>
-          <h1 className="md-page-title text-2xl">Settings</h1>
-          <p className="md-page-sub mt-1 text-sm">
+      <PageHeader
+        title="Settings"
+        subtitle={
+          <>
             Profile via{" "}
             <code className="rounded-md bg-[var(--md-surface-container-high)] px-1.5 py-0.5 text-xs text-[var(--md-on-surface-variant)]">
               get(endpoints.USER_ME)
             </code>
             .
-          </p>
-        </div>
-      </header>
+          </>
+        }
+        icon={
+          <GearSix className="size-5 md:size-6" weight="duotone" aria-hidden />
+        }
+      />
+
+      <MoreNavigation />
 
       <AppearanceSettings />
 

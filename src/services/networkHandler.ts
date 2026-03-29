@@ -3,6 +3,7 @@ import {
   mockCategories,
   mockGoals,
   mockRecurringRules,
+  mockTransactionTemplates,
   mockTransactions,
   mockUser,
 } from "../static";
@@ -32,6 +33,8 @@ function resolveMockGet(url: string): unknown {
       return mockRecurringRules;
     case "/api/goals":
       return mockGoals;
+    case "/api/transaction-templates":
+      return mockTransactionTemplates;
     default:
       return undefined;
   }

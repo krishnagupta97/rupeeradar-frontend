@@ -1,6 +1,8 @@
 import { Plus, Wallet } from "@phosphor-icons/react";
 import { useMemo, useState } from "react";
 import { Button } from "../../components/Button";
+import { MobileAddFab } from "../../components/MobileAddFab";
+import { PageHeader } from "../../components/PageHeader";
 import { useApp } from "../../contexts/useApp";
 import { useFinanceData } from "../../contexts/useFinanceData";
 import type { Budget, Transaction } from "../../services/types";
@@ -78,31 +80,34 @@ export default function BudgetsPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-start gap-3">
-          <div className="flex size-11 items-center justify-center rounded-2xl bg-[var(--md-primary-container)] text-[var(--md-on-primary-container)] shadow-[var(--md-elev-1)]">
-            <Wallet className="size-6" weight="duotone" aria-hidden />
-          </div>
-          <div>
-            <h1 className="md-page-title text-2xl">Budgets</h1>
-            <p className="md-page-sub mt-1 text-sm">
-              Monthly limits and spend for this calendar month.
-            </p>
-          </div>
-        </div>
-        <Button
-          type="button"
-          variant="primary"
-          className="self-start"
-          onClick={() => {
-            setBudgetModalKey((k) => k + 1);
-            setModalOpen(true);
-          }}
-        >
-          <Plus className="size-5" weight="bold" />
-          Add budget
-        </Button>
-      </div>
+      <PageHeader
+        title="Budgets"
+        subtitle="Monthly limits and spend for this calendar month."
+        icon={
+          <Wallet className="size-5 md:size-6" weight="duotone" aria-hidden />
+        }
+        actions={
+          <Button
+            type="button"
+            variant="primary"
+            onClick={() => {
+              setBudgetModalKey((k) => k + 1);
+              setModalOpen(true);
+            }}
+          >
+            <Plus className="size-5" weight="bold" />
+            Add budget
+          </Button>
+        }
+      />
+
+      <MobileAddFab
+        label="Add budget"
+        onClick={() => {
+          setBudgetModalKey((k) => k + 1);
+          setModalOpen(true);
+        }}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {rows.map((row) => (

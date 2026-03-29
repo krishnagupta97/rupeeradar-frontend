@@ -1,13 +1,15 @@
-import { ListBullets, Plus } from "@phosphor-icons/react";
+import { ListBullets } from "@phosphor-icons/react";
 import { useMemo, useState } from "react";
-import { Button } from "../../components/Button";
+import { PageHeader } from "../../components/PageHeader";
 import { useApp } from "../../contexts/useApp";
 import { useFinanceData } from "../../contexts/useFinanceData";
 import type { Category, Transaction } from "../../services/types";
 import { Skeleton } from "../../skeleton";
 import type { TransactionFilterType } from "./types";
 import { AddTransactionModal } from "./components/AddTransactionModal";
+import { TransactionAddMenu } from "./components/TransactionAddMenu";
 import { TransactionFilters } from "./components/TransactionFilters";
+import { TransactionSpeedDial } from "./components/TransactionSpeedDial";
 import { TransactionTable } from "./components/TransactionTable";
 
 function matchesQuery(
@@ -30,19 +32,26 @@ export default function TransactionsPage() {
   const {
     transactions,
     categories,
+    transactionTemplates,
     loading,
     error,
     addTransaction,
+    applyTemplate,
   } = useFinanceData();
   const [query, setQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<TransactionFilterType>("all");
   const [modalOpen, setModalOpen] = useState(false);
   const [txModalKey, setTxModalKey] = useState(0);
-
   const categoriesById = useMemo(
     () => new Map(categories.map((c) => [c._id, c])),
     [categories],
   );
+
+  const pinnedTemplates = useMemo(() => {
+    return transactionTemplates
+      .filter((t) => t.pinSlot !== null)
+      .sort((a, b) => (a.pinSlot ?? 0) - (b.pinSlot ?? 0));
+  }, [transactionTemplates]);
 
   const filtered = useMemo(() => {
     return transactions
@@ -61,31 +70,40 @@ export default function TransactionsPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-start gap-3">
-          <div className="flex size-11 items-center justify-center rounded-2xl bg-[var(--md-primary-container)] text-[var(--md-on-primary-container)] shadow-[var(--md-elev-1)]">
-            <ListBullets className="size-6" weight="duotone" aria-hidden />
-          </div>
-          <div>
-            <h1 className="md-page-title text-2xl">Transactions</h1>
-            <p className="md-page-sub mt-1 text-sm">
-              Filter and search; add rows locally until your API is wired.
-            </p>
-          </div>
-        </div>
-        <Button
-          type="button"
-          variant="primary"
-          className="self-start"
-          onClick={() => {
-            setTxModalKey((k) => k + 1);
-            setModalOpen(true);
-          }}
-        >
-          <Plus className="size-5" weight="bold" />
-          Add transaction
-        </Button>
-      </div>
+      <PageHeader
+        title="Transactions"
+        subtitle="Filter and search; add rows locally until your API is wired."
+        icon={
+          <ListBullets
+            className="size-5 md:size-6"
+            weight="duotone"
+            aria-hidden
+          />
+        }
+        actions={
+          <TransactionAddMenu
+            categories={categories}
+            pinnedTemplates={pinnedTemplates}
+            currency={currency}
+            onNewTransaction={() => {
+              setTxModalKey((k) => k + 1);
+              setModalOpen(true);
+            }}
+            onApplyTemplate={applyTemplate}
+          />
+        }
+      />
+
+      <TransactionSpeedDial
+        categories={categories}
+        pinnedTemplates={pinnedTemplates}
+        currency={currency}
+        onAddNew={() => {
+          setTxModalKey((k) => k + 1);
+          setModalOpen(true);
+        }}
+        onApplyTemplate={applyTemplate}
+      />
 
       <TransactionFilters
         query={query}

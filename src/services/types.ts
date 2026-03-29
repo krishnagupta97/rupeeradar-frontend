@@ -62,3 +62,18 @@ export interface Goal {
   deadline: string;
   status: "active" | "paused" | "completed";
 }
+
+/** Saved shortcut for repeat transactions (e.g. daily commute). */
+export interface TransactionTemplate {
+  _id: Id;
+  userId: Id;
+  name: string;
+  categoryId: Id;
+  type: "income" | "expense";
+  amount: number;
+  note: string;
+  /** Comma-separated style stored as single string until API exists. */
+  tags: string;
+  /** Quick-add dock position on mobile/desktop; at most one template per slot. */
+  pinSlot: 0 | 1 | 2 | null;
+}

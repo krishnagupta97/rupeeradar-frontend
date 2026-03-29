@@ -1,5 +1,6 @@
 import { ChartPie } from "@phosphor-icons/react";
 import { useMemo } from "react";
+import { PageHeader } from "../../components/PageHeader";
 import { useApp } from "../../contexts/useApp";
 import { useFinanceData } from "../../contexts/useFinanceData";
 import type { Transaction } from "../../services/types";
@@ -76,17 +77,13 @@ export default function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-8">
-      <header className="flex items-start gap-3">
-        <div className="flex size-11 items-center justify-center rounded-2xl bg-[var(--md-primary-container)] text-[var(--md-on-primary-container)] shadow-[var(--md-elev-1)]">
-          <ChartPie className="size-6" weight="duotone" aria-hidden />
-        </div>
-        <div>
-          <h1 className="md-page-title text-2xl">Dashboard</h1>
-          <p className="md-page-sub mt-1 text-sm">
-            Overview of this month and recent movement.
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        title="Dashboard"
+        subtitle="Overview of this month and recent movement."
+        icon={
+          <ChartPie className="size-5 md:size-6" weight="duotone" aria-hidden />
+        }
+      />
 
       <SummaryCards
         income={incomeMonth}
