@@ -25,3 +25,6 @@ dist-ssr
 
 package-lock.json
 .env
+
+finance_tracker_er_diagram.html
+finance_tracker_class_diagram_full.html
